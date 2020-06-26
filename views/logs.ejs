@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+
+    </style>
+  </head>
+  <body>
+    <form action="">
+      <div class="container">
+        <% for (var i = 0; i < tweets.length; i++) { %>
+          <div class="row">
+            <div class="col-sm">
+               <input type="checkbox" id="tweet-<%=i%>" name="tweet-<%=i%>" value="<%=tweets[i]%>" class="tweets">
+            </div>
+            <div class="col-sm">
+              <div id="<%= tweets[i] %>"></div>
+            </div>
+          </div>
+        <% } %>
+        <div class="row float-right">
+          <button>Submit</button>
+        </div>
+      </div>
+    </form>
+  </body>
+</html>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script>
+  $(function () {
+    var tweets = <%- JSON.stringify(tweets) %>;
+    for (var i = 0; i < tweets.length; i++) {
+      console.log(tweets[i]);
+      twttr.widgets.createTweet(
+        tweets[i],
+        document.getElementById(tweets[i]),
+        {
+          theme: 'light',
+          conversation: 'none',
+          cards: 'hidden',
+          width: 550,
+        }
+      );
+    };
+  });
+</script>
+<script>
+  $(function () {
+    var socket = io();
+    $('form').submit(function(e){
+      e.preventDefault(); // prevents page reloading
+      checked_tweets = $('.tweets:checkbox:checked')
+      tweet_values = []
+      for (index = 0; index < checked_tweets.length; index++) { 
+        tweet_values.push(checked_tweets[index].value)
+      }
+      socket.emit('tweet', tweet_values); 
+      return false;
+    });
+  });
+</script>
