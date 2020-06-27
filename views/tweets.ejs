@@ -2,23 +2,20 @@
 <html>
   <%- include('partials/header') %>
   <body>
-    <form action="">
-      <div class="container">
-        <% for (var i = 0; i < tweets.length; i++) { %>
-          <div class="row">
-            <div class="col-sm">
-               <input type="checkbox" id="tweet-<%=i%>" name="tweet-<%=i%>" value="<%=tweets[i]%>" class="tweets">
-            </div>
-            <div class="col-sm">
-              <div id="<%= tweets[i] %>"></div>
-            </div>
-          </div>
-        <% } %>
-        <div class="row float-right">
-          <button>Submit</button>
+    <div class="container">
+      <form action="/tweets/add/" method="post">
+        <label for="tweet_url">Enter url: </label>
+        <input id="tweet_url" type="text" name="url_field" value="">
+        <input type="submit" value="OK">
+      </form>
+    </div>
+    <div class="row">
+      <% for (var i = 0; i < tweets.length; i++) { %>
+        <div class="col-sm-3">
+          <div id="<%= tweets[i] %>"></div>
         </div>
-      </div>
-    </form>
+      <% } %>
+    </div>
   </body>
 </html>
 
@@ -41,20 +38,5 @@
         }
       );
     };
-  });
-</script>
-<script>
-  $(function () {
-    var socket = io();
-    $('form').submit(function(e){
-      e.preventDefault(); // prevents page reloading
-      checked_tweets = $('.tweets:checkbox:checked')
-      tweet_values = []
-      for (index = 0; index < checked_tweets.length; index++) { 
-        tweet_values.push(checked_tweets[index].value)
-      }
-      socket.emit('tweet', tweet_values); 
-      return false;
-    });
   });
 </script>

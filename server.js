@@ -30,7 +30,7 @@ app.get('/tweets/add', (req, res) => {
 
 app.post('/tweets/add', (req, res) => {
   redisClient.rpush('tweets', req.body.url_field);
-  res.redirect('/tweets/add')
+  res.redirect('/tweets')
 });
 
 app.get('/admin', (req, res) => {
