@@ -12,6 +12,13 @@ $(function () {
 	      socket.emit('tweet', tweet_values);
 	      $('#sucess-banner').html(`${tweet_values.length} tweets sent to the browser source.`);
 	      $("#sucess-banner").fadeIn(1000).delay(3000).fadeOut(1000)
+	      tweet_values.forEach((tweet_id) => {
+	      	var checkbox = $(`#tweet-${tweet_id}`);
+	      	$(`#${tweet_id}`).css('outline', '')
+          $(`.tweet-list-${tweet_id}`).remove();
+          checkbox.prop('checked', false);
+          closeNav();
+	      });
 	      return false;
 	  } else{
 	  	if(tweet_values.length == 0){

@@ -28,7 +28,6 @@
   $(function () {
     var tweets = <%- JSON.stringify(tweets) %>;
     for (var i = 0; i < tweets.length; i++) {
-      console.log(tweets[i]);
       twttr.widgets.createTweet(
         tweets[i],
         document.getElementById(tweets[i]),

@@ -46,7 +46,6 @@ app.get('/admin', (req, res) => {
 });
 
 app.post('/tweets/delete', (req, res) => {
-  console.log('tweets delete route')
   const tweets = req.body.tweets;
   tweets.forEach(async function(tweet) {
     redisClient.lrem('tweets', -1, tweet);
@@ -72,10 +71,6 @@ app.get('/tweets', async (req, res) => {
 });
 
 io.on('connection', (socket) => {
-  console.log('a user connected');
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });
   socket.on('chat message', (msg) => {
     io.emit('chat message', msg);
   });
