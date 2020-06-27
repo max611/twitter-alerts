@@ -3,7 +3,7 @@ var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 const redis = require("redis");
-const client = redis.createClient();
+var client = require('redis').createClient(process.env.REDIS_URL);
 var bodyParser = require('body-parser');
 
 client.on("error", function(error) {
