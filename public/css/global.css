@@ -1,3 +1,7 @@
 .cover-container {
 	padding-top: 100px;
 }
+
+iframe {
+  pointer-events: none;
+}

@@ -11,10 +11,10 @@
       <div class="container">
       	<div class="row">
 		      <% for (var i = 0; i < tweets.length; i++) { %>
-		        <div class="col-md-4">
+		        <div class="col-md-4 hijack">
 		        	<div id="<%= tweets[i] %>"></div>
 		          <div class="row col-md-2 offset-md-5">
-		          	<input type="checkbox" id="tweet-<%=i%>" name="tweet-<%=i%>" value="<%=tweets[i]%>" class="tweets">
+		          	<input type="checkbox" id="tweet-<%=tweets[i]%>" name="tweet-<%=tweets[i]%>" value="<%=tweets[i]%>" class="tweets" style="visibility: hidden">
 		          </div>
 		        </div>
 		      <% } %>
@@ -50,6 +50,17 @@
           width: 550,
         }
       );
+      $(`#${tweets[i]}`).on('click', function(){
+      	tweet_id = $(this).attr('id')
+      	var checkbox = $(`#tweet-${tweet_id}`);
+      	if(!checkbox.prop("checked")){
+      		$(`#${tweet_id}`).css('outline', '2px dashed blue')
+			  	checkbox.prop('checked', true);
+      	} else {
+      		$(`#${tweet_id}`).css('outline', '')
+			  	checkbox.prop('checked', false);
+      	}
+			});
     };
   });
 </script>
