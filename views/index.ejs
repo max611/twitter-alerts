@@ -1,39 +1,35 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Socket.IO chat</title>
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: 0.5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
-    </style>
-  </head>
-  <body>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
-  </body>
-</html>
+<%- include('partials/header') %>
+<body class="text-center">
+  <div class="cover-container d-flex h-100 mx-auto flex-column">
+    <main role="main" class="inner cover">
+      <h1 class="cover-heading">Twitter Stream Alerts</h1>
+      <p class="lead">You can add, remove, view and show tweets on stream.</p>
+      <p class="lead">
+        <a href="/tweets" class="btn btn-lg btn-secondary">View saved tweets</a>
+        <a href="/tweets/add" class="btn btn-lg btn-secondary">Add tweets</a>
+        <a href="/admin" class="btn btn-lg btn-secondary">Admin panel</a>
+      </p>
+      <div class="col-md-6 offset-md-3" style="padding-top: 30px">
+        <label for="basic-url">Your browser source</label>
+      </div>
+      <div class="form-row justify-content-center">
+        <div class="form-group col-md-3">
+            <div class="input-group mx-auto mb-3">
+                <span class="form-control input-group-text" size="2" id="hostname" style="text-align:center"><%= hostname %>/browser_source</span>
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-info btn-clipboard" data-clipboard-action="copy" data-clipboard-target="#hostname">Copy</button>
+                </div>
+            </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
 
-<script src="/socket.io/socket.io.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <script>
-  $(function () {
-    var socket = io();
-    $('form').submit(function(e){
-      e.preventDefault(); // prevents page reloading
-      socket.emit('chat message', $('#m').val());
-      $('#m').val('');
-      return false;
-    });
-    socket.on('chat message', function(msg){
-      $('#messages').append($('<li>').text(msg));
-    });
+  $(document).ready(function() {
+    new ClipboardJS('.btn-clipboard');
   });
 </script>
+<%- include('partials/footer') %>

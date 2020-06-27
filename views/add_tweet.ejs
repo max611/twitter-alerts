@@ -1,4 +1,5 @@
-<form action="/add_tweet/" method="post">
+<%- include('partials/header') %>
+<form action="/tweets/add/" method="post">
     <label for="tweet_url">Enter url: </label>
     <input id="tweet_url" type="text" name="url_field" value="">
     <input type="submit" value="OK">

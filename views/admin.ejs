@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+  <%- include('partials/header') %>
+  <script src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <body>
+  	<div style='height: 50px'>
+	  	<div id='sucess-banner' class="col-md-6 offset-md-3 alert alert-success" role="alert" style='display:none;'>
+			</div>
+		</div>
+    <form action="">
+      <div class="container">
+        <% for (var i = 0; i < tweets.length; i++) { %>
+          <div class="row">
+            <div class="col-sm">
+               <input type="checkbox" id="tweet-<%=i%>" name="tweet-<%=i%>" value="<%=tweets[i]%>" class="tweets">
+            </div>
+            <div class="col-sm">
+              <div id="<%= tweets[i] %>"></div>
+            </div>
+          </div>
+        <% } %>
+        <div class="row float-right">
+          <button name="show" class="btn btn-primary show-btn">Show</button>
+          <button name="remove" class="btn btn-danger remove-btn">Delete</button>
+        </div>
+      </div>
+    </form>
+  </body>
+  <% if (typeof libs !== 'undefined') { %>
+	  <% for (let lib of libs) { %>
+	      <script src='/js/<%= lib %>.js' type='text/javascript'></script>
+	  <% } %>
+	<% } %>
+</html>
+<%- include('partials/footer') %>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+  $(function () {
+    var tweets = <%- JSON.stringify(tweets) %>;
+    for (var i = 0; i < tweets.length; i++) {
+      twttr.widgets.createTweet(
+        tweets[i],
+        document.getElementById(tweets[i]),
+        {
+          theme: 'light',
+          conversation: 'none',
+          cards: 'hidden',
+          width: 550,
+        }
+      );
+    };
+  });
+</script>
