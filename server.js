@@ -3,14 +3,16 @@ var app = express();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 const redis = require("redis");
-var client = require('redis').createClient(process.env.REDIS_URL);
+const client = redis.createClient();
+
 var bodyParser = require('body-parser');
 
 client.on("error", function(error) {
   console.error(error);
 });
 
-app.set('port', (process.env.PORT || 5000));
+const PORT = process.env.PORT || 3000;
+app.set('port', PORT);
 app.set('views', __dirname);
 app.engine('ejs', require('ejs').renderFile);
 app.set('view engine', 'ejs');
@@ -59,7 +61,7 @@ io.on('connection', (socket) => {
   });
 });
 
-http.listen(3000, () => {
-  console.log('listening on *:3000');
+http.listen(PORT, () => {
+  console.log(`Our app is running on port ${ PORT }`);
 });
 
