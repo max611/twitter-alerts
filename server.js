@@ -1,7 +1,5 @@
 var express = require('express');
 var app = express();
-var http = require('http').createServer(app);
-var io = require('socket.io')(http);
 const redis = require("redis");
 const redisClient = require('redis').createClient(process.env.REDIS_URL);
 
@@ -16,8 +14,11 @@ app.set('port', PORT);
 app.set('views', __dirname);
 app.engine('ejs', require('ejs').renderFile);
 app.set('view engine', 'ejs');
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(express.static(__dirname + '/public'));
+require("./app/routes/routes.js")(app);
 
 app.get('/', (req, res) => {
   var hostname = process.env.HOSTNAME || 'localhost:3000';
@@ -69,6 +70,9 @@ app.get('/tweets', async (req, res) => {
 	  }
 	});
 });
+
+var http = require('http').createServer(app);
+var io = require('socket.io')(http);
 
 io.on('connection', (socket) => {
   socket.on('chat message', (msg) => {
