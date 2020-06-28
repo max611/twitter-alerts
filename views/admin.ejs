@@ -1,8 +1,8 @@
 <!doctype html>
 <html>
   <link href="/css/admin.css" rel="stylesheet" type="text/css">
+  <link href="/css/tweet.css" rel="stylesheet" type="text/css">
   <%- include('partials/header') %>
-  <script src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
   <body>
     <div id="sidebar" class="sidebar">
       <br>
@@ -43,19 +43,19 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
-  $(function () {
+  $(async function () {
     var tweets = <%- JSON.stringify(tweets) %>;
+    let data = "";
     for (var i = 0; i < tweets.length; i++) {
-      twttr.widgets.createTweet(
-        tweets[i],
-        document.getElementById(tweets[i]),
-        {
-          theme: 'light',
-          conversation: 'none',
-          cards: 'hidden',
-          width: 550,
+      await $.ajax({
+        url: "https://publish.twitter.com/oembed?url=" + "https://twitter.com/robdelaney/status/329651129988288514",
+        dataType: "jsonp",
+        success: function(data) {
+          new_html = data.html.replace(/<script.*?<\/script>/g, '');
+          new_html = new_html.replace(/<a.*?<\/a>/g, '');
+          $(`#${tweets[i]}`).html(new_html);
         }
-      );
+      });
       $(`#${tweets[i]}`).on('click', function(){
       	tweet_id = $(this).attr('id')
       	var checkbox = $(`#tweet-${tweet_id}`);
