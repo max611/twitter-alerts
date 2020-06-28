@@ -46,6 +46,23 @@ app.get('/admin', (req, res) => {
   });
 });
 
+app.post('/tweets_url/add', (req, res) => {
+  redisClient.rpush('tweets_url', req.body.url_field);
+  res.redirect('/tweets_url')
+});
+
+app.get('/tweets_url', async (req, res) => {
+  tweets = []
+  redisClient.lrange('tweets_url', 0, -1, function(error, result) {
+    if (error) {
+        console.error(error);
+    } else {
+      tweets = result
+      res.render('views/tweets_url', {tweets: tweets});
+    }
+  });
+});
+
 app.post('/tweets/delete', (req, res) => {
   const tweets = req.body.tweets;
   tweets.forEach(async function(tweet) {
