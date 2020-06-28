@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+  <link href="/css/admin.css" rel="stylesheet" type="text/css">
+  <link href="/css/tweets_url.css" rel="stylesheet" type="text/css">
+  <%- include('partials/header') %>
+  <body>
+  	<form action="/tweets_url/add/" method="post">
+      <label for="tweet_url">Enter url: </label>
+      <input id="tweet_url" type="text" name="url_field" value="">
+      <input type="submit" value="OK">
+    </form>
+    <div id="sidebar" class="sidebar">
+      <br>
+      <ul class="list-group tweet-list">
+      </ul>
+      <div>
+        <form action="">
+          <button name="show" class="btn btn-primary show-btn">Show</button>
+          <button name="remove" class="btn btn-danger remove-btn">Delete</button>
+        </form>
+      </div>
+    </div>
+  	<div style='height: 50px'>
+	  	<div id='sucess-banner' class="col-md-6 offset-md-3 alert alert-success" role="alert" style='display:none;'>
+			</div>
+		</div>
+    <div class="container">
+    	<div class="row">
+	      <% for (var i = 0; i < tweets.length; i++) { %>
+	      	<% tweet_url = tweets[i] %>
+	     		<% tweet = tweets[i].split('/').pop() %>
+	        <div class="col-md-4 hijack" id="<%= tweet %>">
+	        	<div class="card">
+						  <div class="card-body tweet-card">
+						  	<h5 id="<%= tweet %>-author" class="card-text tweet-author"></h5>
+						    <p id="<%= tweet %>-text" class="card-title tweet-text"></p>
+						  </div>
+						  <div class="row col-md-2 offset-md-5">
+		          	<input type="checkbox" id="tweet-<%=tweet%>" name="tweet-<%=tweet%>" value="<%=tweet_url%>" class="tweets" style="display: none">
+		          </div>
+						</div>
+	        </div>
+	      <% } %>
+	    </div>
+    </div>
+  </body>
+  <% if (typeof libs !== 'undefined') { %>
+	  <% for (let lib of libs) { %>
+	      <script src='/js/<%= lib %>.js' type='text/javascript'></script>
+	  <% } %>
+	<% } %>
+</html>
+<%- include('partials/footer') %>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+  $(async function () {
+    var tweets = <%- JSON.stringify(tweets) %>;
+    let data = "";
+    for (var i = 0; i < tweets.length; i++) {
+    	tweet = tweets[i].split('/').pop()
+      await $.ajax({
+        url: "https://publish.twitter.com/oembed?url=" + tweets[i],
+        dataType: "jsonp",
+        success: function(data) {
+          new_html = data.html.replace(/<script.*?<\/script>/g, '');
+          new_html = new_html.replace(/(\<a)(?!.*\<a).*<\/a>/, "");
+          new_html = new_html.replace(/<blockquote .*?>/g, '');
+  				new_html = new_html.replace(/<\/blockquote>.*?/g, '');
+          text = new_html.split('&mdash;')[0]
+          author = new_html.split('&mdash;')[1]
+          $(`#${tweet}-text`).html(text);
+					$(`#${tweet}-author`).html(author);
+        }
+      });
+      $(`#${tweet}`).on('click', function(){
+      	tweet_id = $(this).attr('id')
+      	var checkbox = $(`#tweet-${tweet_id}`);
+      	if(!checkbox.prop("checked")){
+      		$(`#${tweet_id}`).css('outline', '2px solid blue')
+          $(".tweet-list").append(`<li class="list-group-item tweet-list-${tweet_id}">tweet id ${tweet_id} </li>`);
+          openNav();
+			  	checkbox.prop('checked', true);
+      	} else {
+      		$(`#${tweet_id}`).css('outline', '')
+          $(`.tweet-list-${tweet_id}`).remove();
+			  	checkbox.prop('checked', false);
+          if ( $('#sidebar ul li').length == 0 ) {
+            closeNav();
+          }
+      	}
+			});
+    };
+  });
+
+  function openNav() {
+    document.getElementById("sidebar").style.width = "250px";
+  }
+
+  function closeNav() {
+    document.getElementById("sidebar").style.width = "0";
+  }
+</script>
