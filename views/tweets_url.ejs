@@ -27,6 +27,7 @@
     <div class="container">
     	<div class="row">
 	      <% for (var i = 0; i < tweets.length; i++) { %>
+	      	<% tweet_url = tweets[i] %>
 	     		<% tweet = tweets[i].split('/').pop() %>
 	        <div class="col-md-4 hijack" id="<%= tweet %>">
 	        	<div class="card">
@@ -35,7 +36,7 @@
 						    <p id="<%= tweet %>-text" class="card-title tweet-text"></p>
 						  </div>
 						  <div class="row col-md-2 offset-md-5">
-		          	<input type="checkbox" id="tweet-<%=tweet%>" name="tweet-<%=tweet%>" value="<%tweet%>" class="tweets" style="visibility: hidden">
+		          	<input type="checkbox" id="tweet-<%=tweet%>" name="tweet-<%=tweet%>" value="<%=tweet_url%>" class="tweets" style="visibility: hidden">
 		          </div>
 						</div>
 	        </div>

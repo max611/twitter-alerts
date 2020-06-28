@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>browser source</title>
+    <style>
+    	#tweet{display:none;}
+    </style>
+  </head>
+  <body>
+    <div id="tweet" class="tweet col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 id="tweet-author" class="card-text tweet-author"></h5>
+          <p id="tweet-text" class="card-title tweet-text"></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+  $(function () {
+    var socket = io();
+    socket.on('tweet_url', function(tweets){
+    	for (const tweet of tweets) {
+    		$("#tweet").fadeOut(1000, function() {
+    			$(`#tweet-text`).html( "");
+          $(`#tweet-author`).html( "");
+				  $.ajax({
+            url: "https://publish.twitter.com/oembed?url=" + tweet,
+            dataType: "jsonp",
+            success: function(data) {
+              
+              new_html = data.html.replace(/<script.*?<\/script>/g, '');
+              new_html = new_html.replace(/(\<a)(?!.*\<a).*<\/a>/, "");
+              new_html = new_html.replace(/<blockquote .*?>/g, '');
+              new_html = new_html.replace(/<\/blockquote>.*?/g, '');
+              text = new_html.split('&mdash;')[0]
+              author = new_html.split('&mdash;')[1]
+              $(`#tweet-text`).html(text);
+              $(`#tweet-author`).html(author);
+              console.log(text)
+            }
+          });
+				}).fadeIn(1000).delay(4000).fadeOut(500).delay(1000);
+      };
+    });
+  });
+</script>

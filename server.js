@@ -58,9 +58,22 @@ app.get('/tweets_url', async (req, res) => {
         console.error(error);
     } else {
       tweets = result
-      res.render('views/tweets_url', {tweets: tweets});
+      res.render('views/tweets_url', {tweets: tweets, libs: ['tweets_url']});
     }
   });
+});
+
+app.get('/browser_source_url', (req, res) => {
+  res.render('views/browser_source_url');
+});
+
+app.post('/tweets_url/delete', (req, res) => {
+  const tweets = req.body.tweets;
+  tweets.forEach(async function(tweet) {
+    redisClient.lrem('tweets_url', -1, tweet);
+  })
+
+  res.sendStatus(200)
 });
 
 app.post('/tweets/delete', (req, res) => {
@@ -98,6 +111,10 @@ io.on('connection', (socket) => {
 
   socket.on('tweet', (msg) => {
     io.emit('tweet', msg);
+  });
+
+  socket.on('tweet_url', (msg) => {
+    io.emit('tweet_url', msg);
   });
 });
 
