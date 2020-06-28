@@ -25,8 +25,8 @@ $(function () {
 	  		return;
 	  	}
 	  	$.post('/tweets/delete', {tweets: tweet_values}).done(function(response){
-				   location.reload();
-				});
+			   location.reload();
+			});
 	  }
 	  
 	});
