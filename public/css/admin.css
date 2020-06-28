@@ -2,6 +2,14 @@ twitter-widget {
   pointer-events: none;
 }
 
+.twitter-tweet {
+  pointer-events: none;
+}
+
+.twitter-tweet-rendered {
+  pointer-events: none;
+}
+
 .sidebar {
   height: 100%;
   width: 0;
