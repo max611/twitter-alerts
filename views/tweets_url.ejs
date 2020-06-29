@@ -4,11 +4,6 @@
   <link href="/css/tweets_url.css" rel="stylesheet" type="text/css">
   <%- include('partials/header') %>
   <body>
-  	<form action="/tweets_url/add/" method="post">
-      <label for="tweet_url">Enter url: </label>
-      <input id="tweet_url" type="text" name="url_field" value="">
-      <button name="add" class="btn btn-primary add-btn">Add</button>
-    </form>
     <div id="sidebar" class="sidebar">
       <br>
       <ul class="list-group tweet-list">
@@ -20,28 +15,36 @@
         </form>
       </div>
     </div>
-  	<div style='height: 50px'>
-	  	<div id='sucess-banner' class="col-md-6 offset-md-3 alert alert-success" role="alert" style='display:none;'>
-			</div>
-		</div>
     <div class="container">
-    	<div class="row">
-	      <% for (var i = 0; i < tweets.length; i++) { %>
-	      	<% tweet_url = tweets[i] %>
-	     		<% tweet = tweets[i].split('/').pop() %>
-	        <div class="col-md-4 hijack" id="<%= tweet %>">
-	        	<div class="card">
-						  <div class="card-body tweet-card">
-						  	<h5 id="<%= tweet %>-author" class="card-text tweet-author"></h5>
-						    <p id="<%= tweet %>-text" class="card-title tweet-text"></p>
-						  </div>
-						  <div class="row col-md-2 offset-md-5">
-		          	<input type="checkbox" id="tweet-<%=tweet%>" name="tweet-<%=tweet%>" value="<%=tweet_url%>" class="tweets" style="display: none">
-		          </div>
-						</div>
-	        </div>
-	      <% } %>
-	    </div>
+    	<form action="/tweets_url/add/" method="post">
+        <label for="tweet_url">Enter url: </label>
+        <input id="tweet_url" type="text" name="url_field" value="">
+        <button name="add" class="btn btn-primary add-btn">Add</button>
+      </form>
+      
+    	<div style='height: 50px'>
+  	  	<div id='sucess-banner' class="col-md-6 offset-md-3 alert alert-success" role="alert" style='display:none;'>
+  			</div>
+  		</div>
+      <div class="container">
+      	<div class="row">
+  	      <% for (var i = 0; i < tweets.length; i++) { %>
+  	      	<% tweet_url = tweets[i] %>
+  	     		<% tweet = tweets[i].split('/').pop() %>
+  	        <div class="col-md-4 hijack" id="<%= tweet %>">
+  	        	<div class="card">
+  						  <div class="card-body tweet-card">
+  						  	<h5 id="<%= tweet %>-author" class="card-text tweet-author"></h5>
+  						    <p id="<%= tweet %>-text" class="card-title tweet-text"></p>
+  						  </div>
+  						  <div class="row col-md-2 offset-md-5">
+  		          	<input type="checkbox" id="tweet-<%=tweet%>" name="tweet-<%=tweet%>" value="<%=tweet_url%>" class="tweets" style="display: none">
+  		          </div>
+  						</div>
+  	        </div>
+  	      <% } %>
+  	    </div>
+      </div>
     </div>
   </body>
   <% if (typeof libs !== 'undefined') { %>

@@ -6,10 +6,11 @@
       <p class="lead">You can add, remove, view and show tweets on stream.</p>
       <p class="lead">
         <a href="/tweets" class="btn btn-lg btn-secondary">View tweets</a>
+        <a href="/tweets_url" class="btn btn-lg btn-secondary">Tweet URL admin</a>
         <a href="/admin" class="btn btn-lg btn-secondary">Admin</a>
       </p>
       <div class="col-md-6 offset-md-3" style="padding-top: 30px">
-        <label for="basic-url">Your browser source</label>
+        <label for="basic-url">Browser source (default)</label>
       </div>
       <div class="form-row justify-content-center">
         <div class="form-group col-md-3">
@@ -17,6 +18,19 @@
                 <span class="form-control input-group-text" size="2" id="hostname" style="text-align:center"><%= hostname %>/browser_source</span>
                 <div class="input-group-append">
                     <button type="button" class="btn btn-info btn-clipboard" data-clipboard-action="copy" data-clipboard-target="#hostname">Copy</button>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-md-6 offset-md-3" style="padding-top: 30px">
+        <label for="basic-url">Browser source (Tweet URL)</label>
+      </div>
+      <div class="form-row justify-content-center">
+        <div class="form-group col-md-3">
+            <div class="input-group mx-auto mb-3">
+                <span class="form-control input-group-text" size="2" id="browser_source_url" style="text-align:center"><%= hostname %>/browser_source_url</span>
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-info btn-clipboard" data-clipboard-action="copy" data-clipboard-target="#browser_source_url">Copy</button>
                 </div>
             </div>
         </div>
