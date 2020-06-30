@@ -5,8 +5,7 @@ $(function () {
 	  var clicked_btn = $(document.activeElement).attr('name');
 	  checked_tweets = $('.tweets:checkbox:checked')
 	  tweet_values = []
-	  for (index = 0; index < checked_tweets.length; index++) { 
-	  	console.log(checked_tweets)
+	  for (index = 0; index < checked_tweets.length; index++) {
 	    tweet_values.push(checked_tweets[index].value)
 		}
 			console.log(tweet_values)

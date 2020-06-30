@@ -20,6 +20,11 @@ $(function () {
           closeNav();
 	      });
 	      return false;
+	  } else if (clicked_btn == 'add'){
+	  	tweet_url = $('#tweet').val();
+	  	$.post('/tweets/add', {tweet: tweet_url}).done(function(response){
+			   location.reload();
+			});
 	  } else{
 	  	if(tweet_values.length == 0){
 	  		return;

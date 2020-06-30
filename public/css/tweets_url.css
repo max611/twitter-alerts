@@ -1,3 +1,27 @@
 .tweet-card {
 	background-color: #00acee;
 }
+
+.row {
+	padding-top: 20px;
+}
+
+.hijack {
+  border-radius: 25px;
+  background: #00acee;
+  padding: 10px;
+  text-align: right;
+}
+
+.tweet {
+  border-radius: 25px;
+  background: #00acee;
+  padding: 10px;
+  text-align: right;
+}
+
+
+.tweet-author {
+	padding-bottom: 10px; 
+	text-align: left;
+}

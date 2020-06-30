@@ -30,23 +30,13 @@ app.get('/tweets/add', (req, res) => {
 });
 
 app.post('/tweets/add', (req, res) => {
-  redisClient.rpush('tweets', req.body.url_field);
+  // if already exist, dont add it
+  redisClient.rpush('tweets', req.body.tweet);
   res.redirect('/tweets')
 });
 
-app.get('/admin', (req, res) => {
-  tweets = []
-  redisClient.lrange('tweets', 0, -1, function(error, result) {
-    if (error) {
-        console.error(error);
-    } else {
-      tweets = result
-      res.render('views/admin', {tweets: tweets, libs: ['admin']});
-    }
-  });
-});
-
 app.post('/tweets_url/add', (req, res) => {
+  // if already exist, dont add it
   redisClient.rpush('tweets_url', req.body.tweet_url);
   res.redirect('/tweets_url')
 });
@@ -57,7 +47,7 @@ app.get('/tweets_url', async (req, res) => {
     if (error) {
         console.error(error);
     } else {
-      tweets = result
+      tweets = result.filter((x, i, a) => a.indexOf(x) == i)
       res.render('views/tweets_url', {tweets: tweets, libs: ['tweets_url']});
     }
   });
@@ -91,14 +81,14 @@ app.get('/browser_source', (req, res) => {
 
 app.get('/tweets', async (req, res) => {
 	tweets = []
-	redisClient.lrange('tweets', 0, -1, function(error, result) {
-	  if (error) {
-	      console.error(error);
-	  } else {
-	  	tweets = result
-	    res.render('views/tweets', {tweets: tweets});
-	  }
-	});
+  redisClient.lrange('tweets', 0, -1, function(error, result) {
+    if (error) {
+        console.error(error);
+    } else {
+      tweets = result.filter((x, i, a) => a.indexOf(x) == i)
+      res.render('views/tweets', {tweets: tweets, libs: ['tweets']});
+    }
+  });
 });
 
 var http = require('http').createServer(app);
