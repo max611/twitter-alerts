@@ -21,22 +21,46 @@ module.exports = app => {
 	app.get('/users', users.findAll)
 	app.get('/user', users.getUser)
 
+
+  var sessionChecker = (req, res, next) => {
+    if (req.session.user && req.cookies.user_sid) {
+        res.redirect('/tweets');
+    } else {
+        next();
+    }    
+  };
+
   app.post('/login', async function(req, res, next) { 
     const { username, password } = req.body;
     if (username && password) {
       let user = await users.getUser(req, res);
-      if (!user) {
-        res.status(401).json({ msg: 'No such user found', user });
-      }
-     if (user.password === password) {
-        // from now on we'll identify the user by the id and the id is
-        // the only personalized value that goes into our token
-        let payload = { id: user.id };
-        let token = jwt.sign(payload, jwtOptions.secretOrKey);
-        res.json({ msg: 'ok', token: token });
+      console.log(`username = ${user.username}`)
+      if (username === user.username && password === user.password) {
+        console.log('logged in')
+        let token = jwt.sign({username: username},
+          'secret',
+          {
+            expiresIn: '24h' // expires in 24 hours
+          }
+        );
+        res.cookie('jwt',token, { httpOnly: false, secure: false, maxAge: 3600000 })
+        // return the JWT token for the future API calls
+        res.json({
+          success: true,
+          message: 'Authentication successful!',
+          token: token
+        });
       } else {
-        res.status(401).json({ msg: 'Password is incorrect' });
+        res.send(403).json({
+          success: false,
+          message: 'Incorrect username or password'
+        });
       }
+    } else {
+      res.send(400).json({
+        success: false,
+        message: 'Authentication failed! Please check the request'
+      });
     }
   });
 };

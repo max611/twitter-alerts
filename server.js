@@ -14,6 +14,18 @@ let jwtOptions = {};
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 jwtOptions.secretOrKey = 'wowwow';
 const users = require("./app/controllers/users.controller.js");
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var morgan = require('morgan');
+app.use(session({
+    key: 'user_sid',
+    secret: 'somerandonstuffs',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        expires: 600000
+    }
+}));
 
 let strategy = new JwtStrategy(jwtOptions, function(jwt_payload, next) {
   console.log('payload received', jwt_payload);
@@ -27,6 +39,8 @@ let strategy = new JwtStrategy(jwtOptions, function(jwt_payload, next) {
 // use the strategy
 passport.use(strategy);
 app.use(passport.initialize());
+app.use(morgan('dev'));
+app.use(cookieParser());
 
 app.set('port', PORT);
 app.set('views', __dirname);
@@ -38,6 +52,33 @@ app.use(express.static(__dirname + '/public'));
 
 // Routing
 require("./app/routes/routes.js")(app);
+
+app.use((req, res, next) => {
+    if (req.cookies.user_sid && !req.session.user) {
+        res.clearCookie('user_sid');        
+    }
+    next();
+});
+
+var sessionChecker = (req, res, next) => {
+  if (req.session.user && req.cookies.user_sid) {
+      res.redirect('/tweets');
+  } else {
+      next();
+  }    
+};
+
+app.get('/login', sessionChecker, (req, res) => {
+  res.render('views/login');
+});
+
+app.get('/signup', sessionChecker, (req, res) => {
+  res.render('views/signup');
+});
+
+app.get('/potato', sessionChecker, (req, res) => {
+    res.redirect('views/login');
+});
 
 redisClient.on("error", function(error) {
   console.error(error);

@@ -9,12 +9,11 @@ exports.findAll = (req, res) => {
 };
 
 exports.getUser = async (req, res) => {
-	console.log('get user')
 	user = await User.findOne({
     where: {
       username: req.body.username
     }
   })
-  console.log(`user = ${user}`)
+  req.session.user = user.dataValues;
   return user;
 };
