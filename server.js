@@ -1,9 +1,8 @@
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
 const redis = require("redis");
 const redisClient = require('redis').createClient(process.env.REDIS_URL);
-
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 
 redisClient.on("error", function(error) {
   console.error(error);
