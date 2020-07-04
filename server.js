@@ -13,11 +13,9 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
-require("./app/routes/routes.js")(app);
 
-app.use("/", require("./app/routes/home"));
-app.use("/", require("./app/routes/tweets"));
-app.use("/", require("./app/routes/browser_source"));
+// Routing
+require("./app/routes/routes.js")(app);
 
 redisClient.on("error", function(error) {
   console.error(error);
