@@ -54,19 +54,19 @@ app.use(express.static(__dirname + '/public'));
 require("./app/routes/routes.js")(app);
 
 app.use((req, res, next) => {
-    if (req.cookies.user_sid && !req.session.user) {
-        res.clearCookie('user_sid');        
-    }
-    next();
+  if (req.cookies.user_sid && !req.session.user) {
+    res.clearCookie('user_sid');        
+  }
+  next();
 });
 
 var isLoggedIn = (req, res, next) => {
   if (req.session.user && req.cookies.user_sid) {
-      console.log(req.session.user);
-      res.locals.user = req.session.user;
-      res.redirect('/tweets');
+    res.locals.user = req.session.user;
+    res.redirect('/tweets');
   } else {
-      next();
+    res.locals.user = undefined
+    next();
   }    
 };
 
@@ -78,8 +78,15 @@ app.get('/register', isLoggedIn, (req, res) => {
   res.render('views/register');
 });
 
+app.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    res.locals.user = undefined
+    res.redirect('/') // will always fire after session is destroyed
+  })
+});
+
 app.get('/potato', isLoggedIn, (req, res) => {
-    res.redirect('views/login');
+    res.redirect('/login');
 });
 
 redisClient.on("error", function(error) {

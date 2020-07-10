@@ -34,9 +34,8 @@ module.exports = app => {
     const { username, password } = req.body;
     if (username && password) {
       let user = await users.getUser(req, res);
-      console.log(`username = ${user.username}`)
+
       if (username === user.username && password === user.password) {
-        console.log('logged in')
         let token = jwt.sign({username: username},
           'secret',
           {
@@ -44,12 +43,7 @@ module.exports = app => {
           }
         );
         res.cookie('jwt',token, { httpOnly: false, secure: false, maxAge: 3600000 })
-        // return the JWT token for the future API calls
-        res.json({
-          success: true,
-          message: 'Authentication successful!',
-          token: token
-        });
+        res.redirect('/');
       } else {
         res.send(403).json({
           success: false,
