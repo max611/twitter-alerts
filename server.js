@@ -72,8 +72,8 @@ app.get('/login', sessionChecker, (req, res) => {
   res.render('views/login');
 });
 
-app.get('/signup', sessionChecker, (req, res) => {
-  res.render('views/signup');
+app.get('/register', sessionChecker, (req, res) => {
+  res.render('views/register');
 });
 
 app.get('/potato', sessionChecker, (req, res) => {
