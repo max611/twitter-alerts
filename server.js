@@ -60,23 +60,25 @@ app.use((req, res, next) => {
     next();
 });
 
-var sessionChecker = (req, res, next) => {
+var isLoggedIn = (req, res, next) => {
   if (req.session.user && req.cookies.user_sid) {
+      console.log(req.session.user);
+      res.locals.user = req.session.user;
       res.redirect('/tweets');
   } else {
       next();
   }    
 };
 
-app.get('/login', sessionChecker, (req, res) => {
+app.get('/login', isLoggedIn, (req, res) => {
   res.render('views/login');
 });
 
-app.get('/register', sessionChecker, (req, res) => {
+app.get('/register', isLoggedIn, (req, res) => {
   res.render('views/register');
 });
 
-app.get('/potato', sessionChecker, (req, res) => {
+app.get('/potato', isLoggedIn, (req, res) => {
     res.redirect('views/login');
 });
 
