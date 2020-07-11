@@ -18,7 +18,7 @@ const User = UserModel(sequelize, Sequelize)
 const Setting = SettingModel(sequelize, Sequelize)
 Setting.belongsTo(User);
 
-sequelize.sync({ force: true })
+sequelize.sync({ force: false })
   .then(() => {
     console.log(`Database & tables created!`)
   })

@@ -1,6 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const redisClient = require('redis').createClient(process.env.REDIS_URL);
+var hasTweetAccess = (req, res, next) => {
+  if (req.session.user) {
+    next();
+  } else {
+    res.redirect('/login');
+  }    
+};
 
 router.get('/tweets/add', (req, res) => {
   res.render('views/add_tweet');
@@ -18,7 +25,7 @@ router.post('/tweets_url/add', (req, res) => {
   res.redirect('/tweets_url')
 });
 
-router.get('/tweets_url', async (req, res) => {
+router.get('/tweets_url', hasTweetAccess, async (req, res) => {
   tweets = []
   redisClient.lrange('tweets_url', 0, -1, function(error, result) {
     if (error) {
@@ -48,7 +55,7 @@ router.post('/tweets/delete', (req, res) => {
   res.sendStatus(200)
 });
 
-router.get('/tweets', async (req, res) => {
+router.get('/tweets', hasTweetAccess, async (req, res) => {
 	tweets = []
   redisClient.lrange('tweets', 0, -1, function(error, result) {
     if (error) {
