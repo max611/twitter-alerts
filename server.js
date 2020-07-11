@@ -7,6 +7,7 @@ const router = express.Router();
 const PORT = process.env.PORT || 3000;
 const session = require('express-session');
 const auth = require("./app/controllers/auth.controller.js");
+const morgan = require('morgan');
 
 app.set('port', PORT);
 app.set('views', __dirname);
@@ -15,7 +16,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
-
+app.use(morgan('dev'));
 app.use(session({
   secret: 'somerandonstuffs',
   resave: false,

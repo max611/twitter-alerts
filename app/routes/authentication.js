@@ -23,12 +23,12 @@ router.post('/login', async function(req, res, next) {
   const { username, password } = req.body;
   if (username && password) {
     let user = await users.getUser(req, res);
-    if (username === user.username && password === user.password) {
+    if (username === user.username && user.validPassword(password)) {
       console.log('logged in')
       req.session.user = user;
       res.redirect('/')
     } else {
-      res.send(403).json({
+      res.sendStatus(403).json({
         success: false,
         message: 'Incorrect username or password'
       });
