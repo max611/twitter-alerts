@@ -7,6 +7,7 @@ const router = express.Router();
 const PORT = process.env.PORT || 3000;
 const session = require('express-session');
 const users = require("./app/controllers/users.controller.js");
+const auth = require("./app/controllers/auth.controller.js");
 
 app.set('port', PORT);
 app.set('views', __dirname);
@@ -22,17 +23,7 @@ app.use(session({
   saveUninitialized: false
 }));
 
-var isLoggedIn = (req, res, next) => {
-  if (req.session.user) {
-    res.locals.user = user;
-    next();
-  } else {
-    res.locals.user = undefined;
-    next();
-  }    
-};
-
-app.use(isLoggedIn)
+app.use(auth.isLoggedIn);
 
 // Routing
 require("./app/routes/routes.js")(app);
@@ -58,11 +49,11 @@ io.on('connection', (socket) => {
   });
 });
 
-app.get('/login', isLoggedIn, (req, res) => {
+app.get('/login', (req, res) => {
   res.render('views/login');
 });
 
-app.get('/register', isLoggedIn, (req, res) => {
+app.get('/register', (req, res) => {
   res.render('views/register');
 });
 
