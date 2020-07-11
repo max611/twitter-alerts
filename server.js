@@ -42,11 +42,11 @@ var io = require('socket.io')(http);
 io.on('connection', (socket) => {
 
   socket.on('sendTweet', (data) => {
-    io.emit(data.room, data.tweets);
+    io.emit(`tweet-${data.room}`, data.tweets);
   })
 
   socket.on('sendTweetUrl', (data) => {
-    io.emit(data.room, data.tweets);
+    io.emit(`tweetUrl-${data.room}`, data.tweets);
   });
 });
 

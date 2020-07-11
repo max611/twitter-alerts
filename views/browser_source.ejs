@@ -22,7 +22,7 @@
     const urlParams = new URLSearchParams(queryString);
     const room = urlParams.get('room')
 
-    socket.on(room, function(tweets){
+    socket.on(`tweet-${room}`, function(tweets){
     	for (const tweet of tweets) {
     		$("#tweet").fadeOut(1000, function() {
     			$('#tweet').html("");
