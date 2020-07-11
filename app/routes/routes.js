@@ -5,6 +5,7 @@ module.exports = app => {
   app.use("/", require("./home"));
   app.use("/", require("./tweets"));
   app.use("/", require("./browser_source"));
+  app.use("/", require("./authentication"));
 
   app.post("/settings", settings.create);
   app.get("/settings", settings.findAll);
