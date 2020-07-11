@@ -22,7 +22,6 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
-
 app.use(auth.isLoggedIn);
 
 // Routing
@@ -41,6 +40,11 @@ var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
 io.on('connection', (socket) => {
+
+  socket.on('sendTweet', (data) => {
+    io.emit(data.room, data.tweets);
+  })
+
   socket.on('chat message', (msg) => {
     io.emit('chat message', msg);
   });
