@@ -9,7 +9,8 @@ router.get('/tweets/add', (req, res) => {
 
 router.post('/tweets/add', (req, res) => {
   // if already exist, dont add it
-  redisClient.rpush('tweets', req.body.tweet);
+  tweet_id = req.body.tweet.split('/').pop()
+  redisClient.rpush('tweets', tweet_id);
   res.redirect('/tweets')
 });
 
