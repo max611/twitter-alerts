@@ -8,9 +8,9 @@ $(function () {
 	  for (index = 0; index < checked_tweets.length; index++) {
 	    tweet_values.push(checked_tweets[index].value)
 		}
-			console.log(tweet_values)
+
 	    if(clicked_btn == 'show'){
-	      socket.emit('tweet_url', tweet_values);
+	      socket.emit('sendTweetUrl', {room: window.user, tweets: tweet_values});
 	      $('#sucess-banner').html(`${tweet_values.length} tweets sent to the browser source.`);
 	      $("#sucess-banner").fadeIn(1000).delay(3000).fadeOut(1000)
 	      tweet_values.forEach((tweet) => {

@@ -23,7 +23,11 @@
 <script>
   $(function () {
     var socket = io();
-    socket.on('tweet_url', function(tweets){
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const room = urlParams.get('room')
+
+    socket.on(room, function(tweets){
     	for (const tweet of tweets) {
     		$("#tweet").fadeOut(1000, function() {
     			$(`#tweet-text`).html( "");

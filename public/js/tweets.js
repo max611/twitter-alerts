@@ -9,7 +9,6 @@ $(function () {
 	    tweet_values.push(checked_tweets[index].value)
 		}
 	    if(clicked_btn == 'show'){
-	      socket.emit('tweet', tweet_values);
 	      socket.emit('sendTweet', {room: window.user, tweets: tweet_values});
 	      $('#sucess-banner').html(`${tweet_values.length} tweets sent to the browser source.`);
 	      $("#sucess-banner").fadeIn(1000).delay(3000).fadeOut(1000)

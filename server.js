@@ -45,16 +45,8 @@ io.on('connection', (socket) => {
     io.emit(data.room, data.tweets);
   })
 
-  socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
-  });
-
-  socket.on('tweet', (msg) => {
-    io.emit('tweet', msg);
-  });
-
-  socket.on('tweet_url', (msg) => {
-    io.emit('tweet_url', msg);
+  socket.on('sendTweetUrl', (data) => {
+    io.emit(data.room, data.tweets);
   });
 });
 
