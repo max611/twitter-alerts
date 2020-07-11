@@ -6,7 +6,6 @@ const bodyParser = require('body-parser');
 const router = express.Router();
 const PORT = process.env.PORT || 3000;
 const session = require('express-session');
-const users = require("./app/controllers/users.controller.js");
 const auth = require("./app/controllers/auth.controller.js");
 
 app.set('port', PORT);
@@ -47,45 +46,6 @@ io.on('connection', (socket) => {
   socket.on('tweet_url', (msg) => {
     io.emit('tweet_url', msg);
   });
-});
-
-app.get('/login', (req, res) => {
-  res.render('views/login');
-});
-
-app.get('/register', (req, res) => {
-  res.render('views/register');
-});
-
-app.get('/logout',(req,res) => {
-  req.session.destroy((err) => {
-    if(err) {
-      return console.log(err);
-    }
-    res.redirect('/');
-  });
-});
-
-app.post('/login', async function(req, res, next) { 
-  const { username, password } = req.body;
-  if (username && password) {
-    let user = await users.getUser(req, res);
-    if (username === user.username && password === user.password) {
-      console.log('logged in')
-      req.session.user = user;
-      res.redirect('/')
-    } else {
-      res.send(403).json({
-        success: false,
-        message: 'Incorrect username or password'
-      });
-    }
-  } else {
-    res.send(400).json({
-      success: false,
-      message: 'Authentication failed! Please check the request'
-    });
-  }
 });
 
 http.listen(PORT, () => {
