@@ -1,6 +1,6 @@
 exports.isLoggedIn = (req, res, next) => {
   if (req.session.user) {
-    res.locals.user = user;
+    res.locals.user = req.session.user;
     next();
   } else {
     res.locals.user = undefined;

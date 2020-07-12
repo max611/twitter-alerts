@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 3000;
 const session = require('express-session');
 const auth = require("./app/controllers/auth.controller.js");
 const morgan = require('morgan');
+const RedisStore = require('connect-redis')(session)
 
 app.set('port', PORT);
 app.set('views', __dirname);
@@ -18,6 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 app.use(morgan('dev'));
 app.use(session({
+  store: new RedisStore({ client: redisClient }),
   secret: 'somerandonstuffs',
   resave: false,
   saveUninitialized: false
