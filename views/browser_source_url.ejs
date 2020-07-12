@@ -48,6 +48,7 @@
               new_html = new_html.replace(/<blockquote .*?>/g, '');
               new_html = new_html.replace(/<\/blockquote>.*?/g, '');
               text = new_html.split('&mdash;')[0]
+              text = text.split('pic.twitter')[0]
               author = new_html.split('&mdash;')[1]
               at = author.match(/\(([^)]+)\)/)[1]
               $(`#tweet-text`).html(text);
@@ -70,5 +71,9 @@
     margin-top: 10px;
     line-height: 10px;   /* within paragraph */
     margin-bottom: 10px; /* between paragraphs */
+  }
+
+  a {
+    color: #ff929b;
   }
 </style>
