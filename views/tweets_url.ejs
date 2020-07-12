@@ -2,6 +2,8 @@
 <html>
   <link href="/css/tweets.css" rel="stylesheet" type="text/css">
   <link href="/css/tweets_url.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <%- include('partials/header') %>
   <script>
     window.user = `<%= user.id %>`;
@@ -23,27 +25,28 @@
   	  	<div id='sucess-banner' class="col-md-6 offset-md-3 alert alert-success" role="alert" style='display:none;'>
   			</div>
   		</div>
-      <div class="container">
+      <div class="w3-container">
         <form action="/tweets_url/add/" method="post">
           <label for="tweet_url">Enter Tweet URL: </label>
           <input id="tweet_url" type="text" name="url_field" value="">
           <button name="add" class="btn btn-primary add-btn">Add</button>
         </form>
-      	<div class="row" >
+        <div>
   	      <% for (var i = 0; i < tweets.length; i++) { %>
   	      	<% tweet_url = tweets[i] %>
   	     		<% tweet = tweets[i].split('/').pop() %>
-  	        <div class="col-md-6 hijack" id="<%= tweet %>">
-  	        	<div>
-                <h5 id="<%= tweet %>-author" class="tweet-author"></h5>
-  						  <p id="<%= tweet %>-text" class="tweet-text"></p>
-  						  <div class="row col-md-2 offset-md-5">
-  		          	<input type="checkbox" id="tweet-<%=tweet%>" name="tweet-<%=tweet%>" value="<%=tweet_url%>" class="tweets" style="display: none">
-  		          </div>
-  						</div>
+  	        <div class="w3-card-4" id="<%= tweet %>" style="width:30%; display: inline-block;">
+              <header class="w3-container w3-blue">
+                <img style="float: right;" alt="" src="https://pngimg.com/uploads/twitter/twitter_PNG1.png" />
+                <p class="header full_name" id="<%= tweet %>-author"><p class="at" id="<%= tweet %>-at"></p></p>
+              </header>
+              <div class="w3-container content tweet-div">
+                <p id="<%= tweet %>-text" class="content"></p>
+              </div>
+              <input type="checkbox" id="tweet-<%=tweet%>" name="tweet-<%=tweet%>" value="<%=tweet_url%>" class="tweets" style="display: none">
   	        </div>
   	      <% } %>
-  	    </div>
+        </div>
       </div>
     </div>
   </body>
@@ -74,13 +77,16 @@
     				new_html = new_html.replace(/<\/blockquote>.*?/g, '');
             text = new_html.split('&mdash;')[0]
             author = new_html.split('&mdash;')[1]
+            at = author.match(/\(([^)]+)\)/)[1]
             $(`#${tweet}-text`).html(text);
-  					$(`#${tweet}-author`).html(author);
+  					$(`#${tweet}-author`).html(author.replace(`(${at})`,''));
+            $(`#${tweet}-at`).html(at);
           }
         });
       } catch(err){
         $(`#${tweet}-text`).html();
         $(`#${tweet}-author`).html();
+        $(`#${tweet}-at`).html();
       }
       $(`#${tweet}`).on('click', function(){
       	tweet_id = $(this).attr('id')
@@ -110,3 +116,9 @@
     document.getElementById("sidebar").style.width = "0";
   }
 </script>
+
+<style>
+  .w3-blue, .w3-hover-blue:hover {
+    background-color: #6d636c!important;
+  }
+</style>

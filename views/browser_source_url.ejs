@@ -1,18 +1,24 @@
 <!doctype html>
 <html>
   <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="/css/tweets_url.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <title>browser source</title>
     <style>
     	#tweet{display:none;}
     </style>
   </head>
   <body>
-    <div id="tweet" class="tweet col-md-4">
-      <div>
-        <h5 id="tweet-author" class="tweet-author"></h5>
-        <p id="tweet-text" class="tweet-text"></p>
+    <div id="tweet" class="w3-container">
+      <div class="w3-card-4" id="<%= tweet %>" style="width:15%;">
+        <header class="w3-container w3-blue">
+          <img style="float: right;" alt="" src="https://pngimg.com/uploads/twitter/twitter_PNG1.png" />
+          <p class="header full_name" id="tweet-author"><p class="header at" id="tweet-at"></p></p>
+        </header>
+        <div class="w3-container content  tweet-div">
+          <p id="tweet-text" class="content"></p>
+        </div>
       </div>
     </div>
   </body>
@@ -43,9 +49,10 @@
               new_html = new_html.replace(/<\/blockquote>.*?/g, '');
               text = new_html.split('&mdash;')[0]
               author = new_html.split('&mdash;')[1]
+              at = author.match(/\(([^)]+)\)/)[1]
               $(`#tweet-text`).html(text);
-              $(`#tweet-author`).html(author);
-              console.log(text)
+              $(`#tweet-author`).html(author.replace(`(${at})`,''));
+              $(`#tweet-at`).html(at);
             }
           });
 				}).fadeIn(1000).delay(4000).fadeOut(500).delay(1000);
@@ -53,3 +60,15 @@
     });
   });
 </script>
+
+<style>
+  .w3-blue, .w3-hover-blue:hover {
+    background-color: #6d636c!important;
+  }
+
+  p.header {
+    margin-top: 10px;
+    line-height: 10px;   /* within paragraph */
+    margin-bottom: 10px; /* between paragraphs */
+  }
+</style>
