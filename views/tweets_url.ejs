@@ -81,7 +81,7 @@
             text = text.split('pic.twitter')[0]
             author = new_html.split('&mdash;')[1]
             at = author.match(/\(([^)]+)\)/)[1]
-            image = `http://twivatar.glitch.me/${at.substring(1)}`
+            image = `https://res.cloudinary.com/dy4cuqya1/image/twitter_name/${at.substring(1)}.jpg`
             $(`#${tweet}-text`).html(text);
   					$(`#${tweet}-author`).html(author.replace(`(${at})`,''));
             $(`#${tweet}-at`).html(at);
