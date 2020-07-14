@@ -37,7 +37,8 @@
   	     		<% tweet = tweets[i].split('/').pop() %>
   	        <div class="w3-card-4" id="<%= tweet %>" style="width:30%; display: inline-block;">
               <header class="w3-container w3-blue">
-                <img style="float: right;" alt="" src="https://pngimg.com/uploads/twitter/twitter_PNG1.png" />
+                <img src="" id="<%= tweet %>-img" class="avatar">
+                <img style="float: right;" class="twitter" alt="" src="https://pngimg.com/uploads/twitter/twitter_PNG1.png" />
                 <p class="header full_name" id="<%= tweet %>-author"><p class="at" id="<%= tweet %>-at"></p></p>
               </header>
               <div class="w3-container content tweet-div">
@@ -71,6 +72,7 @@
           url: "https://publish.twitter.com/oembed?url=" + tweets[i],
           dataType: "jsonp",
           success: function(data) {
+            console.log(data.html)
             new_html = data.html.replace(/<script.*?<\/script>/g, '');
             new_html = new_html.replace(/(\<a)(?!.*\<a).*<\/a>/, "");
             new_html = new_html.replace(/<blockquote .*?>/g, '');
@@ -79,9 +81,11 @@
             text = text.split('pic.twitter')[0]
             author = new_html.split('&mdash;')[1]
             at = author.match(/\(([^)]+)\)/)[1]
+            image = `http://twivatar.glitch.me/${at.substring(1)}`
             $(`#${tweet}-text`).html(text);
   					$(`#${tweet}-author`).html(author.replace(`(${at})`,''));
             $(`#${tweet}-at`).html(at);
+            $(`#${tweet}-img`).attr("src", image);
           }
         });
       } catch(err){
@@ -125,6 +129,15 @@
 
   a {
     color: #ff929b;
+  }
+
+  img.avatar {
+    border-radius: 50%;
+    width: 50px;
+    float: left;
+    margin-left: -10px;
+    margin-right: 10px;
+    margin-top: 5px;
   }
 
 </style>
