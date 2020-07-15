@@ -39,7 +39,8 @@
               <header class="w3-container w3-blue">
                 <img src="" id="<%= tweet %>-img" class="avatar">
                 <img style="float: right;" class="twitter" alt="" src="https://pngimg.com/uploads/twitter/twitter_PNG1.png" />
-                <p class="header full_name" id="<%= tweet %>-author"><p class="at" id="<%= tweet %>-at"></p></p>
+                <p class="header full_name" id="<%= tweet %>-author"></p>
+                <p class="at" id="<%= tweet %>-at"></p>
               </header>
               <div class="w3-container content tweet-div">
                 <p id="<%= tweet %>-text" class="content"></p>
@@ -135,9 +136,13 @@
     border-radius: 50%;
     width: 50px;
     float: left;
-    margin-left: -10px;
+    margin-left: -7px;
     margin-right: 10px;
-    margin-top: 5px;
+    margin-top: 7px;
+  }
+
+  p {
+    margin-block-end: 10px;
   }
 
 </style>

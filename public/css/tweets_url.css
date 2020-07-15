@@ -1,5 +1,5 @@
 img.twitter {
-  margin-top: 5px;
+  margin-top: 25px;
   filter: invert(1);
   width: 20px;
 }
@@ -9,9 +9,9 @@ p.full_name {
 }
 
 p.header {
-  margin-top: 10px;
-  line-height: 5px;   /* within paragraph */
-  margin-bottom: 10px; /* between paragraphs */
+  margin-top: 15px;
+  line-height: 10px;   /* within paragraph */
+  margin-bottom: 6px; /* between paragraphs */
 }
 
 .content {
