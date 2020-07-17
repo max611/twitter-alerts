@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const UserModel = require('./../models/users.model.js')
 const SettingModel = require('./../models/setting.model.js')
+const TweetModel = require('./../models/tweets.model.js')
 const dbConfig = require("./db.config.js");
 
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
@@ -16,7 +17,10 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 
 const User = UserModel(sequelize, Sequelize)
 const Setting = SettingModel(sequelize, Sequelize)
-Setting.belongsTo(User);
+const Tweet = TweetModel(sequelize, Sequelize)
+
+Tweet.belongsTo(User);
+User.hasMany(Tweet, {as: 'tweets'});
 
 sequelize.sync({ force: false })
   .then(() => {
@@ -25,5 +29,6 @@ sequelize.sync({ force: false })
 
 module.exports = {
   User,
-  Setting
+  Setting,
+  Tweet
 }

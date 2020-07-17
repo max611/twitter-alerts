@@ -33,8 +33,8 @@
         </form>
         <div>
   	      <% for (var i = 0; i < tweets.length; i++) { %>
-  	      	<% tweet_url = tweets[i] %>
-  	     		<% tweet = tweets[i].split('/').pop() %>
+  	      	<% tweet_url = tweets[i].url %>
+  	     		<% tweet = tweet_url.split('/').pop() %>
   	        <div class="w3-card-4" id="<%= tweet %>" style="width:30%; display: inline-block;">
               <header class="w3-container w3-blue">
                 <img src="" id="<%= tweet %>-img" class="avatar">
@@ -67,13 +67,14 @@
     var tweets = <%- JSON.stringify(tweets) %>;
     let data = "";
     for (var i = 0; i < tweets.length; i++) {
-    	tweet = tweets[i].split('/').pop()
+      tweet_url = tweets[i].url
+    	tweet = tweet_url.split('/').pop()
+
       try {
         await $.ajax({
-          url: "https://publish.twitter.com/oembed?url=" + tweets[i],
+          url: "https://publish.twitter.com/oembed?url=" + tweet_url,
           dataType: "jsonp",
           success: function(data) {
-            console.log(data.html)
             new_html = data.html.replace(/<script.*?<\/script>/g, '');
             new_html = new_html.replace(/(\<a)(?!.*\<a).*<\/a>/, "");
             new_html = new_html.replace(/<blockquote .*?>/g, '');
