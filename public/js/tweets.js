@@ -21,8 +21,8 @@ $(function () {
 	      });
 	      return false;
 	  } else if (clicked_btn == 'add'){
-	  	tweet_url = $('#tweet').val();
-	  	$.post('/tweets/add', {tweet: tweet_url}).done(function(response){
+	  	tweet_url = $('#tweet_url').val();
+	  	$.post('/tweets/add', {tweet_url: tweet_url}).done(function(response){
 			   location.reload();
 			});
 	  } else{

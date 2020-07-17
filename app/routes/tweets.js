@@ -8,9 +8,8 @@ router.get('/tweets/add', (req, res) => {
   res.render('views/add_tweet');
 });
 
-router.post('/tweets/add', (req, res) => {
-  tweet_id = req.body.tweet.split('/').pop()
-  redisClient.rpush('tweets', tweet_id);
+router.post('/tweets/add', async (req, res) => {
+  await tweetsCtrl.create(req, res);
   res.redirect('/tweets')
 });
 
@@ -26,32 +25,25 @@ router.get('/tweets_url', auth.hasTweetAccess, async (req, res) => {
 
 router.post('/tweets_url/delete', (req, res) => {
   const tweets = req.body.tweets;
+  var tweet_ids = []
   tweets.forEach(async function(tweet) {
-    redisClient.lrem('tweets_url', -1, tweet);
+    tweet_ids.push(tweet.split('/').pop());
   })
 
+  tweetsCtrl.destroy(tweet_ids.map(BigInt), req.session.user.id);
   res.sendStatus(200)
 });
 
 router.post('/tweets/delete', (req, res) => {
-  const tweets = req.body.tweets;
-  tweets.forEach(async function(tweet) {
-    redisClient.lrem('tweets', -1, tweet);
-  })
+  const tweets = req.body.tweets.map(BigInt);
+  tweetsCtrl.destroy(tweets, req.session.user.id);
 
   res.sendStatus(200)
 });
 
 router.get('/tweets', auth.hasTweetAccess, async (req, res) => {
-	tweets = []
-  redisClient.lrange('tweets', 0, -1, function(error, result) {
-    if (error) {
-        console.error(error);
-    } else {
-      tweets = result.filter((x, i, a) => a.indexOf(x) == i)
-      res.render('views/tweets', {tweets: tweets, libs: ['tweets']});
-    }
-  });
+	tweets = await tweetsCtrl.findAll(req, res);
+  res.render('views/tweets', {tweets: tweets, libs: ['tweets']});
 });
 
 module.exports = router;

@@ -24,16 +24,17 @@
     </div>
     <div class="container">
       <form action="/tweets/add/" method="post">
-        <label for="tweet">Enter Tweet URL: </label>
-        <input id="tweet" type="text" name="url_field" value="">
+        <label for="tweet_url">Enter Tweet URL: </label>
+        <input required="required" id="tweet_url" type="text" name="url_field" value="">
         <button name="add" class="btn btn-primary add-btn">Add</button>
       </form>
       <div class="row">
         <% for (var i = 0; i < tweets.length; i++) { %>
           <div class="col-md-4 hijack">
-            <div id="<%= tweets[i] %>"></div>
+            <% tweet_id = tweets[i].url.split('/').pop() %>
+            <div id="<%= tweet_id %>"></div>
             <div class="row col-md-2 offset-md-5">
-              <input type="checkbox" id="tweet-<%=tweets[i]%>" name="tweet-<%=tweets[i]%>" value="<%=tweets[i]%>" class="tweets" style="visibility: hidden">
+              <input type="checkbox" id="tweet-<%=tweet_id%>" name="tweet-<%=tweet_id%>" value="<%=tweet_id%>" class="tweets" style="visibility: hidden">
             </div>
           </div>
         <% } %>
@@ -55,9 +56,10 @@
   $(function () {
     var tweets = <%- JSON.stringify(tweets) %>;
     for (var i = 0; i < tweets.length; i++) {
+      var tweet_id = tweets[i].url.split('/').pop();
       twttr.widgets.createTweet(
-        tweets[i],
-        document.getElementById(tweets[i]),
+        tweet_id,
+        document.getElementById(tweet_id),
         {
           theme: 'light',
           conversation: 'none',
@@ -65,7 +67,7 @@
           width: 550,
         }
       );
-      $(`#${tweets[i]}`).on('click', function(){
+      $(`#${tweet_id}`).on('click', function(){
         tweet_id = $(this).attr('id')
         var checkbox = $(`#tweet-${tweet_id}`);
         if(!checkbox.prop("checked")){

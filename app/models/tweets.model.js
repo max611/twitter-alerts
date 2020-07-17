@@ -7,12 +7,25 @@ module.exports = (sequelize, type) => {
       },
       url: {
       	type: type.STRING,
-      	unique: true,
-      	allowNull: false
+      	allowNull: false,
+      	notEmpty: true
+      },
+      twitter_id: {
+        type: type.BIGINT,
+        allowNull: false,
+        notEmpty: true
       },
       content: type.STRING,
       author: type.STRING,
       at: type.STRING,
       image_url: type.STRING
-  })
-}
+  },
+  {
+    indexes: [
+      {
+        unique: true,
+        fields: ['userId', 'url']
+      }
+    ]
+  }
+)}
