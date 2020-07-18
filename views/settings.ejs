@@ -1,0 +1,17 @@
+<%- include('partials/header') %>
+<body class="">
+  <div class="container">
+  <form action="/settings" method="post">
+	  <label for="fade_in">Fade In:</label><br>
+	  <input type="number" id="fade_in" name="fade_in" value="<%= settings.fade_in %>"><br>
+	  <label for="fade_out">Fade out:</label><br>
+	  <input type="number" id="fade_out" name="fade_out" value="<%= settings.fade_out %>"><br>
+	  <label for="delay">Delay:</label><br>
+	  <input type="number" id="delay" name="delay" value="<%= settings.delay %>"><br>
+	  <label for="css">CSS:</label><br>
+	  <textarea id="css" name="css" rows="4" cols="100" value="<%= settings.css %>"></textarea><br>
+	  <input type="submit" value="Submit">
+	</form>
+  </div>
+</body>
+<%- include('partials/footer') %>

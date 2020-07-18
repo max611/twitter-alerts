@@ -6,9 +6,9 @@ module.exports = app => {
   app.use("/", require("./tweets"));
   app.use("/", require("./browser_source"));
   app.use("/", require("./authentication"));
+  app.use("/", require("./settings"));
 
-  app.post("/settings", settings.create);
-  app.get("/settings", settings.findAll);
+  app.post("/settings", settings.createOrUpdate);
 
 	app.post('/users', users.create)
 	app.get('/users', users.findAll)

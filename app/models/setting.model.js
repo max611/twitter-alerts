@@ -7,6 +7,7 @@ module.exports = (sequelize, type) => {
       },
       fade_in: type.INTEGER,
       fade_out: type.INTEGER,
-      delay: type.INTEGER
+      delay: type.INTEGER,
+      css: type.TEXT
   })
 }

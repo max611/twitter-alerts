@@ -19,6 +19,9 @@ const User = UserModel(sequelize, Sequelize)
 const Setting = SettingModel(sequelize, Sequelize)
 const Tweet = TweetModel(sequelize, Sequelize)
 
+Setting.belongsTo(User);
+User.hasOne(Setting, {as: 'settings'});
+
 Tweet.belongsTo(User);
 User.hasMany(Tweet, {as: 'tweets'});
 
