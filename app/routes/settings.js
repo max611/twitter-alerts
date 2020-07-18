@@ -4,7 +4,7 @@ const auth = require("../controllers/auth.controller.js");
 const settingsCtrl = require("../controllers/setting.controller.js");
 
 router.get('/settings', auth.hasTweetAccess, async (req, res) => {
-	settings = await settingsCtrl.getSettings(req.session.user.id);
+	settings = await settingsCtrl.getSettings(req.session.user.id)  || {};
   res.render('views/settings', {settings: settings});
 });
 
