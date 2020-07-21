@@ -8,4 +8,6 @@ router.get('/settings', auth.hasTweetAccess, async (req, res) => {
   res.render('views/settings', {settings: settings});
 });
 
+router.post("/settings", settingsCtrl.createOrUpdate);
+
 module.exports = router;
