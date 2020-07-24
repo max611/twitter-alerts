@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
   <link href="/css/tweets.css" rel="stylesheet" type="text/css">
+  <link href="/css/sidebar.css" rel="stylesheet" type="text/css">
   <%- include('partials/header') %>
   <script src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
   <script>
@@ -53,45 +54,5 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 <script>
-  $(function () {
-    var tweets = <%- JSON.stringify(tweets) %>;
-    for (var i = 0; i < tweets.length; i++) {
-      var tweet_id = tweets[i].url.split('/').pop();
-      twttr.widgets.createTweet(
-        tweet_id,
-        document.getElementById(tweet_id),
-        {
-          theme: 'light',
-          conversation: 'none',
-          cards: 'hidden',
-          width: 550,
-        }
-      );
-      $(`#${tweet_id}`).on('click', function(){
-        tweet_id = $(this).attr('id')
-        var checkbox = $(`#tweet-${tweet_id}`);
-        if(!checkbox.prop("checked")){
-          $(`#${tweet_id}`).css('outline', '2px solid blue')
-          $(".tweet-list").append(`<li class="list-group-item tweet-list-${tweet_id}">tweet id ${tweet_id} </li>`);
-          openNav();
-          checkbox.prop('checked', true);
-        } else {
-          $(`#${tweet_id}`).css('outline', '')
-          $(`.tweet-list-${tweet_id}`).remove();
-          checkbox.prop('checked', false);
-          if ( $('#sidebar ul li').length == 0 ) {
-            closeNav();
-          }
-        }
-      });
-    };
-  });
-
-  function openNav() {
-    document.getElementById("sidebar").style.width = "250px";
-  }
-
-  function closeNav() {
-    document.getElementById("sidebar").style.width = "0";
-  }
+  show_tweets(<%- JSON.stringify(tweets) %>);
 </script>
