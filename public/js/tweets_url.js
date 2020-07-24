@@ -38,3 +38,62 @@ $(function () {
 	  
 	});
 });
+
+async function show_tweets(tweets) {
+  let data = "";
+  for (var i = 0; i < tweets.length; i++) {
+    tweet_url = tweets[i].url
+  	tweet = tweet_url.split('/').pop()
+
+    try {
+      await $.ajax({
+        url: "https://publish.twitter.com/oembed?url=" + tweet_url,
+        dataType: "jsonp",
+        success: function(data) {
+          new_html = data.html.replace(/<script.*?<\/script>/g, '');
+          new_html = new_html.replace(/(\<a)(?!.*\<a).*<\/a>/, "");
+          new_html = new_html.replace(/<blockquote .*?>/g, '');
+  				new_html = new_html.replace(/<\/blockquote>.*?/g, '');
+          text = new_html.split('&mdash;')[0]
+          text = text.split('pic.twitter')[0]
+          author = new_html.split('&mdash;')[1]
+          at = author.match(/\(([^)]+)\)/)[1]
+          image = `https://res.cloudinary.com/max611/image/twitter_name/${at.substring(1)}.jpg`
+          $(`#${tweet}-text`).html(text);
+					$(`#${tweet}-author`).html(author.replace(`(${at})`,''));
+          $(`#${tweet}-at`).html(at);
+          $(`#${tweet}-img`).attr("src", image);
+        }
+      });
+    } catch(err){
+      $(`#${tweet}-text`).html();
+      $(`#${tweet}-author`).html();
+      $(`#${tweet}-at`).html();
+    }
+    $(`#${tweet}`).on('click', function(){
+    	tweet_id = $(this).attr('id')
+    	var checkbox = $(`#tweet-${tweet_id}`);
+    	if(!checkbox.prop("checked")){
+    		$(`#${tweet_id}`).css('outline', '2px solid blue')
+        $(".tweet-list").append(`<li class="list-group-item tweet-list-${tweet_id}">tweet id ${tweet_id} </li>`);
+        openNav();
+		  	checkbox.prop('checked', true);
+    	} else {
+    		$(`#${tweet_id}`).css('outline', '')
+        $(`.tweet-list-${tweet_id}`).remove();
+		  	checkbox.prop('checked', false);
+        if ( $('#sidebar ul li').length == 0 ) {
+          closeNav();
+        }
+    	}
+		});
+  };
+}
+
+function openNav() {
+  document.getElementById("sidebar").style.width = "250px";
+}
+
+function closeNav() {
+  document.getElementById("sidebar").style.width = "0";
+}

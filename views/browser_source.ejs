@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
   <head>
+    <script src='/js/browser_source.js' type='text/javascript'></script>
     <title>browser source</title>
     <style>
     	#tweet{display:none;}
@@ -16,28 +17,5 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 <script>
-  $(function () {
-    var socket = io();
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const room = urlParams.get('room')
-
-    socket.on(`tweet-${room}`, function(tweets){
-    	for (const tweet of tweets) {
-    		$("#tweet").fadeOut(1000, function() {
-    			$('#tweet').html("");
-				  twttr.widgets.createTweet(
-					  tweet,
-					  document.getElementById('tweet'),
-					  {
-					    theme: 'light',
-		          conversation: 'none',
-		          cards: 'hidden',
-		          width: 550,
-					  }
-					);
-				}).fadeIn(<%= settings.fade_in %>).delay(<%= settings.delay %>).fadeOut(<%= settings.fade_out %>).delay(1000);
-      };
-    });
-  });
+  enable_socket(<%- JSON.stringify(settings) %>);
 </script>
