@@ -1,5 +1,6 @@
 const { expect } = require('chai')
- 
+const { match, stub, resetHistory } = require('sinon')
+
 const {
   sequelize,
   dataTypes,
@@ -11,12 +12,19 @@ const {
 const UserModel = require('../../app/models/users.model.js')
  
 describe('app/models/User', () => {
-  const User = UserModel(sequelize, dataTypes)
-  const user = new User()
+  let User;
+  let user;
+
+  beforeEach(async () => {
+    User = await UserModel(sequelize, dataTypes);
+    user = await new User();
+  });
  
-  checkModelName(User)('user')
- 
-  context('properties', () => {
-    ;['id', 'username', 'password'].forEach(checkPropertyExists(user))
-  })
+  it('test user model', async () => {
+    checkModelName(User)('user')
+   
+    context('properties', () => {
+      ;['id', 'username', 'password'].forEach(checkPropertyExists(user))
+    })
+  });
 })
