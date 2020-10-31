@@ -25,13 +25,13 @@ exports.findAll = async (req, res) => {
 };
 
 exports.getTweet = async (req, res) => {
-	user = await Tweet.findOne({
+	tweet = await Tweet.findOne({
     where: {
       id: req.body.id
     }
   })
 
-  return user;
+  return tweet;
 };
 
 exports.destroy = async (tweet_ids, user_id) => {
