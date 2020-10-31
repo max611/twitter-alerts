@@ -24,14 +24,14 @@ $(function () {
 	      return false;
 	  } else if (clicked_btn == 'add'){
 	  	tweet_url = $('#tweet_url').val();
-	  	$.post('/tweets_url/add', {tweet_url: tweet_url}).done(function(response){
+	  	$.post('/tweets_custom/add', {tweet_url: tweet_url}).done(function(response){
 			   location.reload();
 			});
 	  } else{
 	  	if(tweet_values.length == 0){
 	  		return;
 	  	}
-	  	$.post('/tweets_url/delete', {tweets: tweet_values}).done(function(response){
+	  	$.post('/tweets_custom/delete', {tweets: tweet_values}).done(function(response){
 			   location.reload();
 			});
 	  }
