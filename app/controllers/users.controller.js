@@ -1,7 +1,7 @@
 const { User } = require('../config/sequelize.js')
 
 exports.create = (req, res) => {
-  User.create(req.body).then(user => res.redirect('/login'))
+  return User.create(req.body).then(user => res.redirect('/login'))
 };
 
 exports.findAll = async (req, res) => {
