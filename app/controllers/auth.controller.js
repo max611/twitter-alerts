@@ -5,7 +5,7 @@ exports.isLoggedIn = (req, res, next) => {
   } else {
     res.locals.user = undefined;
     next();
-  }    
+  }
 };
 
 exports.hasTweetAccess = (req, res, next) => {
