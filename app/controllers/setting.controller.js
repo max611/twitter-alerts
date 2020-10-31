@@ -1,7 +1,8 @@
 const { Setting } = require('../config/sequelize.js')
 
-exports.findAll = (req, res) => {
-  Setting.findAll().then(settings => res.json(settings))
+exports.findAll = async (req, res) => {
+  settings = await Setting.findAll();
+  return settings;
 };
 
 exports.getSettings = async (user_id) => {
@@ -18,7 +19,7 @@ exports.createOrUpdate = async (req, res) => {
 	settings_values = req.body
 	settings_values.userId = req.session.user.id;
 
-  Setting
+  return Setting
     .findOne({ where: {userId: settings_values.userId} })
     .then(async function(obj) {
       if(obj){

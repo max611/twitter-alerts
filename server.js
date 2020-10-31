@@ -42,7 +42,6 @@ var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
 io.on('connection', (socket) => {
-
   socket.on('sendTweet', (data) => {
     io.emit(`tweet-${data.room}`, data.tweets);
   })

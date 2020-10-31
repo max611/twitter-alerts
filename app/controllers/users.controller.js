@@ -1,11 +1,12 @@
 const { User } = require('../config/sequelize.js')
 
 exports.create = (req, res) => {
-  User.create(req.body).then(user => res.redirect('/login'))
+  return User.create(req.body).then(user => res.redirect('/login'))
 };
 
-exports.findAll = (req, res) => {
-  User.findAll().then(users => res.json(users))
+exports.findAll = async (req, res) => {
+	users = await User.findAll();
+  return users;
 };
 
 exports.getUser = async (req, res) => {
