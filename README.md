@@ -1,10 +1,11 @@
 # Twitter alerts
 
-This project allows you to save and display tweets on an external browser source in real time. Can be used by production streams to display live tweets during an event.
+This app is a work in progress, it works well locally but I would not release this to the public in it's current state.
+
+This project allows you to save and display tweets on an external browser source in real time. Can be used by streams to display live tweets during an event.
 
 ### Example
-
-Insert video
+You can find an example [here](https://giant.gfycat.com/IlliterateQuerulousHuemul.webm).
 
 ### How to
 #### How to run the app
