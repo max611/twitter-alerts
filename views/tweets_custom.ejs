@@ -4,7 +4,7 @@
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <%- include('partials/header') %>
-  <link href="/css/tweets_url.css" rel="stylesheet" type="text/css">
+  <link href="/css/tweets_custom.css" rel="stylesheet" type="text/css">
   <script>
     window.user = `<%= user.id %>`;
   </script>
@@ -26,7 +26,7 @@
   			</div>
   		</div>
       <div class="w3-container">
-        <form action="/tweets_url/add/" method="post">
+        <form action="/tweets_custom/add/" method="post">
           <label for="tweet_url">Enter Tweet URL: </label>
           <input id="tweet_url" required="required" type="text" name="url_field" value="">
           <button name="add" class="btn btn-primary add-btn">Add</button>
@@ -38,7 +38,7 @@
   	        <div class="w3-card-4" id="<%= tweet %>" style="width:30%; display: inline-block;">
               <header class="w3-container w3-blue">
                 <img src="" id="<%= tweet %>-img" class="avatar">
-                <img style="float: right;" class="twitter" alt="" src="https://pngimg.com/uploads/twitter/twitter_PNG1.png" />
+                <img style="float: right;" class="twitter" alt="" src="/images/twitter.png" />
                 <p class="header full_name" id="<%= tweet %>-author"></p>
                 <p class="at" id="<%= tweet %>-at"></p>
               </header>
@@ -65,3 +65,7 @@
 <script>
   show_tweets(<%- JSON.stringify(tweets) %>);
 </script>
+
+<style>
+  <%= settings.css %>
+</style>

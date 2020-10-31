@@ -25,10 +25,6 @@ p.header {
   margin-bottom: 10px; /* between paragraphs */
 }
 
-a {
-  color: #ff929b;
-}
-
 img.avatar {
   border-radius: 50%;
   width: 50px;
@@ -38,14 +34,10 @@ img.avatar {
   margin-top: 7px;
 }
 
-p {
-  margin-block-end: 10px;
-}
-
 img.twitter {
-margin-top: 25px;
-filter: invert(1);
-width: 20px;
+  margin-top: 25px;
+  filter: invert(1);
+  width: 20px;
 }
 
 p.full_name {
